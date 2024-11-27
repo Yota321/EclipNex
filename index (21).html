@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EclipNex - Gateway to the Stars</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- AOS Library for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Inline CSS -->
+    <style>
+        :root {
+            --background: #0E0E0E; /* Deep Black */
+            --secondary-bg: #1A1A1A; /* Dark Gray */
+            --highlight-blue: #0078F2; /* Electric Blue */
+            --text-primary: #FFFFFF; /* White */
+            --text-secondary: #CCCCCC; /* Light Gray */
+            --gradient-overlay: linear-gradient(45deg, rgba(0,120,242,0.3), rgba(100,0,255,0.3)); /* Gradient Blue */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(14, 14, 14, 0.85);
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--highlight-blue);
+            text-shadow: 0 0 10px var(--highlight-blue);
+        }
+
+        .responsive-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--secondary-bg);
+                position: absolute;
+                top: 70px;
+                right: 5%;
+                width: 200px;
+                padding: 1rem;
+                border-radius: 5px;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .responsive-menu {
+                display: block;
+                font-size: 1.5rem;
+                color: var(--text-primary);
+                cursor: pointer;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--text-primary), var(--highlight-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-button {
+            background: var(--highlight-blue);
+            color: var(--text-primary);
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 3px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 120, 242, 0.8);
+        }
+
+        /* Quote Carousel */
+        .quote-section {
+            padding: 5%;
+            text-align: center;
+            background: var(--secondary-bg);
+            position: relative;
+        }
+
+        .quote {
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            color: var(--highlight-blue);
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .quote.hidden {
+            display: none;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            padding: 5%;
+            background: var(--secondary-bg);
+        }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--highlight-blue);
+            border-radius: 50%;
+        }
+
+        .timeline-item h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item p {
+            margin: 0;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--secondary-bg);
+        }
+
+        .stat-item h4 {
+            color: var(--highlight-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            color: var(--text-secondary);
+        }
+
+        /* Newsletter Signup Section */
+        .newsletter {
+            padding: 5%;
+            background: var(--background);
+            text-align: center;
+        }
+
+        .newsletter input, .newsletter button {
+            padding: 1rem;
+            margin: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">EclipNex</a>
+        <div class="responsive-menu" onclick="toggleMenu()">☰</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#missions">Missions</a>
+            <a href="#research">Research</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Beyond Earth's Horizons</h1>
+            <p>Experience the future of space exploration through groundbreaking tourism and scientific discovery.</p>
+            <a href="#" class="cta-button">Start Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Quote Carousel Section -->
+    <section class="quote-section">
+        <p class="quote">"EclipNex is more than a company; it's a gateway to the stars and a journey into the unknown."</p>
+        <p class="quote hidden">"Every journey we take and every discovery we make brings us one step closer to unraveling the mysteries of space."</p>
+        <p class="quote hidden">"We’re creating a connection between Earth and space, inspiring new generations to reach beyond."</p>
+        <p class="quote-author">- Leah Hwang, Co-Founder</p>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats-section">
+        <div class="stat-item">
+            <h4>80+</h4>
+            <p>Successful Missions</p>
+        </div>
+        <div class="stat-item">
+            <h4>1000+</h4>
+            <p>Space Travelers</p>
+        </div>
+        <div class="stat-item">
+            <h4>25+</h4>
+            <p>Research Projects</p>
+        </div>
+        <div class="stat-item">
+            <h4>15+</h4>
+            <p>Countries Served</p>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline">
+        <div class="timeline-item">
+            <h4>2024</h4>
+            <p>Launch of EclipNex's first commercial space tourism mission.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>2026</h4>
+            <p>Expansion of research programs, focusing on astrobiology and planetary science.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>2028</h4>
+            <p>Inaugural crewed mission to the Moon and beyond.</p>
+        </div>
+        <div class="timeline-item">
+            <h4>2030</h4>
+            <p>Establishment of the first human research station on Mars.</p>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup Section -->
+    <section class="newsletter">
+        <h2>Stay Updated with EclipNex</h2>
+        <p>Subscribe to our newsletter for the latest updates on our missions and research.</p>
+        <input type="email" placeholder="Enter your email" />
+        <button>Subscribe</button>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div>
+            <h3>Follow Us</h3>
+            <div>
+                <a href="#">Twitter</a> | 
+                <a href="#">Instagram</a> | 
+                <a href="#">Facebook</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1200,
+        });
+
+        // Navbar Toggle
+        const responsiveMenu = document.querySelector('.responsive-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        responsiveMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // Quote Carousel
+        const quotes = document.querySelectorAll('.quote');
+        let currentQuote = 0;
+
+        function rotateQuotes() {
+            quotes[currentQuote].classList.add('hidden'); // Hide current quote
+            currentQuote = (currentQuote + 1) % quotes.length; // Move to next quote
+            quotes[currentQuote].classList.remove('hidden'); // Show next quote
+        }
+
+        setInterval(rotateQuotes, 5000); // Change quote every 5 seconds
+
+        // Countdown Timer (optional, you can implement this in a section for the next launch)
+        const countdown = document.getElementById('countdown');
+        const launchDate = new Date('2024-12-31T00:00:00').getTime(); // Set launch date
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = launchDate - now;
+
+            if (timeLeft < 0) {
+                countdown.innerHTML = 'Mission Launched!';
+                clearInterval(timer);
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        const timer = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
+
+Now?
